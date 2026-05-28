@@ -3,4 +3,8 @@
 build/*
 run/*
 gradle/*
+!gradle/wrapper/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
 libs/*
+!libs/*.jar

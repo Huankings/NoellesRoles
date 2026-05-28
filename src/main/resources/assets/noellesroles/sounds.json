@@ -5,10 +5,19 @@
       "noellesroles:role_mine_beep"
     ]
   },
-  "cough": {
-    "subtitle": "subtitles.noellesroles.cough",
+  "item.bomb.beep": {
+    "subtitle": "subtitles.noellesroles.bomb_beep",
     "sounds": [
-      "noellesroles:cough"
+      "noellesroles:item/bomb_beep_1",
+      "noellesroles:item/bomb_beep_2",
+      "noellesroles:item/bomb_beep_3",
+      "noellesroles:item/bomb_beep_4"
+    ]
+  },
+  "item.bomb.explode": {
+    "subtitle": "subtitles.noellesroles.bomb_explode",
+    "sounds": [
+      "noellesroles:item/bomb_explode"
     ]
   }
 }

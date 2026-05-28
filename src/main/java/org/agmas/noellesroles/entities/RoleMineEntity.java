@@ -2,6 +2,7 @@ package org.agmas.noellesroles.entities;
 
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LoreComponent;
 import net.minecraft.entity.Entity;
@@ -20,9 +21,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.agmas.harpymodloader.Harpymodloader;
-import org.agmas.noellesroles.ConfigWorldComponent;
 import org.agmas.noellesroles.Noellesroles;
-import org.agmas.noellesroles.config.NoellesRolesConfig;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,48 +40,29 @@ public class RoleMineEntity extends Entity {
     public void tick() {
         super.tick();
         if (!getWorld().isClient) {
-            if (!GameWorldComponent.KEY.get(getWorld()).isRunning()) {
-                discard();
-                return;
-            }
             if (previouslyCaught.size() >= 3) {
                 discard();
                 GameWorldComponent gameWorldComponent = GameWorldComponent.KEY.get(getWorld());
                 if (owner == null) return;
                 PlayerEntity ownerEntity = getWorld().getPlayerByUuid(owner);
                 if (ownerEntity == null) return;
+                if (ownerEntity instanceof net.minecraft.server.network.ServerPlayerEntity serverOwner) {
+                    NbtCompound extra = new NbtCompound();
+                    extra.putUuid("owner", owner);
+                    GameRecordManager.recordGlobalEvent(serverOwner.getServerWorld(), Noellesroles.ROLE_MINE_REPORT_EVENT, null, extra);
+                }
                 ownerEntity.getInventory().remove((itemStack -> {
                     return itemStack.isOf(Items.PAPER);
                 }),64, ownerEntity.getInventory());
                 ItemStack trapperReport = Items.PAPER.getDefaultStack();
                 trapperReport.set(DataComponentTypes.CUSTOM_NAME, Text.translatable("item.noellesroles.trapper_report").formatted(Formatting.RESET).formatted(Formatting.GRAY));
                 List<Text> loreLines = new ArrayList<>();
-                boolean showRoles = true;
-                if (NoellesRolesConfig.HANDLER.instance().reconsSeeNames && gameWorldComponent.isRole(ownerEntity, Noellesroles.RECON)) {
-                    showRoles = false;
-                }
-                if (NoellesRolesConfig.HANDLER.instance().trapperSeesNames && gameWorldComponent.isRole(ownerEntity, Noellesroles.TRAPPER)) {
-                    showRoles = false;
-                }
-                if (showRoles) {
-                    loreLines.add(Text.translatable("tip.trapper.caught_names", previouslyCaught.size()).formatted(Formatting.RESET).withColor(Colors.GREEN));
-                } else {
-                    loreLines.add(Text.translatable("tip.trapper.caught", previouslyCaught.size()).formatted(Formatting.RESET).withColor(Colors.GREEN));
-                }
+                loreLines.add(Text.translatable("tip.trapper.caught", previouslyCaught.size()).formatted(Formatting.RESET).withColor(Colors.GREEN));
                 Collections.shuffle(previouslyCaught);
-
-                if (showRoles) {
-                    for (UUID uuid1 : previouslyCaught) {
-                        Role role = gameWorldComponent.getRole(uuid1);
-                        if (role == null) continue;
-                        loreLines.add(Harpymodloader.getRoleName(role).withColor(role.color()));
-                    }
-                } else {
-                    for (UUID uuid1 : previouslyCaught) {
-                        PlayerEntity player = getWorld().getPlayerByUuid(uuid1);
-                        if (player == null) continue;
-                        loreLines.add(player.getName());
-                    }
+                for (UUID uuid1 : previouslyCaught) {
+                    Role role = gameWorldComponent.getRole(uuid1);
+                    if (role == null) continue;
+                    loreLines.add(Harpymodloader.getRoleName(role).withColor(role.color()));
                 }
                 ownerEntity.playSoundToPlayer(SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(), SoundCategory.MASTER,1,1);
                 LoreComponent loreComponent = new LoreComponent(loreLines);
@@ -96,6 +76,14 @@ public class RoleMineEntity extends Entity {
 
             for (PlayerEntity caughtPlayer : caughtPlayers) {
                 previouslyCaught.add(caughtPlayer.getUuid());
+                if (getWorld() instanceof net.minecraft.server.world.ServerWorld serverWorld) {
+                    NbtCompound extra = new NbtCompound();
+                    extra.putUuid("victim", caughtPlayer.getUuid());
+                    if (owner != null) {
+                        extra.putUuid("owner", owner);
+                    }
+                    GameRecordManager.recordGlobalEvent(serverWorld, Noellesroles.ROLE_MINE_DETECTED_EVENT, null, extra);
+                }
                 getWorld().playSound(this, getBlockPos(), SoundEvent.of(Identifier.of(Noellesroles.MOD_ID, "role_mine_beep")), SoundCategory.MASTER, 1f, 1f + (getRandom().nextBetween(-2, 2)/0.1f));
                 if (owner != null) {
                     PlayerEntity ownerEntity = getWorld().getPlayerByUuid(owner);

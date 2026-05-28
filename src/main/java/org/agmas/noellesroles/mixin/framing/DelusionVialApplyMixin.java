@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FoodPlatterBlock.class)
 public abstract class DelusionVialApplyMixin {
+    //属于旧 fake poison 兼容思路，继续挂回去反而会和现在的新托盘逻辑冲突，所以不需要再加回mixin.json里面
 
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
     private void defenseVialApply(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {

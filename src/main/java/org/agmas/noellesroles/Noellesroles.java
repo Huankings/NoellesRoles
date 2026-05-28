@@ -120,10 +120,14 @@ public class Noellesroles implements ModInitializer {
     public static Identifier EXECUTIONER_ID = Identifier.of(MOD_ID, "executioner");
     public static Identifier VULTURE_ID = Identifier.of(MOD_ID, "vulture");
     public static Identifier BETTER_VIGILANTE_ID = Identifier.of(MOD_ID, "better_vigilante");
+    public static Identifier INFECTED_ID = Identifier.of(MOD_ID, "infected");
+    public static Identifier RECON_ID = Identifier.of(MOD_ID, "recon");
     public static Identifier TINY_ID = Identifier.of(MOD_ID, "tiny");
     public static Identifier CHAMELEON_ID = Identifier.of(MOD_ID, "chameleon");
     public static Identifier GRAVEROBBER_ID = Identifier.of(MOD_ID, "graverobber");
     public static Identifier FEATHER_ID = Identifier.of(MOD_ID, "feather");
+    public static Identifier INTROVERT_ID = Identifier.of(MOD_ID, "introvert");
+    public static Identifier STEALTH_ID = Identifier.of(MOD_ID, "stealth");
     public static Identifier THE_INSANE_DAMNED_PARANOID_KILLER_OF_DOOM_DEATH_DESTRUCTION_AND_WAFFLES_ID = Identifier.of(MOD_ID, "the_insane_damned_paranoid_killer");
     public static Identifier CONTROLLER_ID = Identifier.of(MOD_ID, "controller");
     public static Identifier CORPSEMAKER_ID = Identifier.of(MOD_ID, "corpsemaker");
@@ -279,6 +283,9 @@ public class Noellesroles implements ModInitializer {
     public static Modifier GRAVEROBBER = HMLModifiers.registerModifier(new Modifier(GRAVEROBBER_ID, new Color(174, 95, 95, 255).getRGB(),null,null,true,false));
     //羽化者
     public static Modifier FEATHER = HMLModifiers.registerModifier(new Modifier(FEATHER_ID, new Color(255, 236, 161, 255).getRGB(),null,null,false,false));
+    public static Modifier INTROVERT = HMLModifiers.registerModifier(new Modifier(INTROVERT_ID, new Color(161, 255, 247, 255).getRGB(),null,null,false,true));
+    public static Modifier STEALTH = HMLModifiers.registerModifier(new Modifier(STEALTH_ID, new Color(109, 117, 90, 255).getRGB(),null,null,false,false));
+
 
 
 
@@ -545,14 +552,14 @@ public class Noellesroles implements ModInitializer {
         }));
         if (!NoellesRolesConfig.HANDLER.instance().shitpostRoles) {
             HarpyModLoaderConfig.HANDLER.load();
-            if (!HarpyModLoaderConfig.HANDLER.instance().disabled.contains(AWESOME_BINGLUS_ID.getPath())) {
-                HarpyModLoaderConfig.HANDLER.instance().disabled.add(AWESOME_BINGLUS_ID.getPath());
+            if (!HarpyModLoaderConfig.HANDLER.instance().disabled.contains(AWESOME_BINGLUS_ID.toString())) {
+                HarpyModLoaderConfig.HANDLER.instance().disabled.add(AWESOME_BINGLUS_ID.toString());
             }
-            if (!HarpyModLoaderConfig.HANDLER.instance().disabled.contains(BETTER_VIGILANTE_ID.getPath())) {
-                HarpyModLoaderConfig.HANDLER.instance().disabled.add(BETTER_VIGILANTE_ID.getPath());
+            if (!HarpyModLoaderConfig.HANDLER.instance().disabled.contains(BETTER_VIGILANTE_ID.toString())) {
+                HarpyModLoaderConfig.HANDLER.instance().disabled.add(BETTER_VIGILANTE_ID.toString());
             }
-            if (!HarpyModLoaderConfig.HANDLER.instance().disabled.contains(THE_INSANE_DAMNED_PARANOID_KILLER_OF_DOOM_DEATH_DESTRUCTION_AND_WAFFLES_ID.getPath())) {
-                HarpyModLoaderConfig.HANDLER.instance().disabled.add(THE_INSANE_DAMNED_PARANOID_KILLER_OF_DOOM_DEATH_DESTRUCTION_AND_WAFFLES_ID.getPath());
+            if (!HarpyModLoaderConfig.HANDLER.instance().disabled.contains(THE_INSANE_DAMNED_PARANOID_KILLER_OF_DOOM_DEATH_DESTRUCTION_AND_WAFFLES_ID.toString())) {
+                HarpyModLoaderConfig.HANDLER.instance().disabled.add(THE_INSANE_DAMNED_PARANOID_KILLER_OF_DOOM_DEATH_DESTRUCTION_AND_WAFFLES_ID.toString());
             }
             HarpyModLoaderConfig.HANDLER.save();
         }

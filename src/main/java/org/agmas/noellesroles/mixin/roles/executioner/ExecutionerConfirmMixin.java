@@ -16,6 +16,7 @@ import org.agmas.harpymodloader.Harpymodloader;
 import org.agmas.harpymodloader.config.HarpyModLoaderConfig;
 import org.agmas.harpymodloader.events.ModdedRoleAssigned;
 import org.agmas.noellesroles.Noellesroles;
+import org.agmas.noellesroles.roles.bartender.BartenderPlayerComponent;
 import org.agmas.noellesroles.roles.executioner.ExecutionerPlayerComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,6 +33,8 @@ public class ExecutionerConfirmMixin {
     private static void executionerConfirm(PlayerEntity victim, boolean spawnBody, PlayerEntity killer, Identifier identifier, CallbackInfo ci) {
         if (victim.getWorld().isClient()) return;
         GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(victim.getWorld());
+        if (victim.getWorld().isClient) return;
+        if (BartenderPlayerComponent.KEY.get(victim).armor > 0) return;
         for (UUID uuid : gameWorldComponent.getAllWithRole(Noellesroles.EXECUTIONER)) {
             PlayerEntity executioner = victim.getWorld().getPlayerByUuid(uuid);
             if (executioner == null) continue;

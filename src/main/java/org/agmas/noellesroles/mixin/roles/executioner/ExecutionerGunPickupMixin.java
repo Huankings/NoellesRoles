@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
 import org.agmas.noellesroles.Noellesroles;
+import org.agmas.noellesroles.config.NoellesRolesConfig;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -36,7 +37,7 @@ public abstract class ExecutionerGunPickupMixin extends Entity {
 
     @WrapMethod(method = "onPlayerCollision")
     private void executionerConfirm(PlayerEntity player, Operation<Void> original) {
-        if (getStack().isIn(WatheItemTags.GUNS)) {
+        if (getStack().isIn(WatheItemTags.GUNS) && NoellesRolesConfig.HANDLER.instance().executionCanPickUpGun) {
             if (GameWorldComponent.KEY.get(player.getWorld()).isRole(player, Noellesroles.EXECUTIONER) && !player.equals(getOwner()) && !player.getInventory().contains((itemStack) -> itemStack.isIn(WatheItemTags.GUNS))) {
                 if (!getWorld().isClient) { // is this the best way to do it? NO! I'm just lazy and this is the only way i FOUND to do it! HAHAhAHAHAHAHAHAHAHAH
                     ItemStack itemStack = this.getStack();

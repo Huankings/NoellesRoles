@@ -28,6 +28,7 @@
     "roles.morphling.MorphlingCapeMixin",
     "roles.morphling.MorphlingHudMixin",
     "roles.noisemaker.NoisemakerShopMixin",
+    "roles.phantom.PhantomHidePsychosisItems",
     "roles.phantom.PhantomHudMixin",
     "roles.phantom.PhantomRattatoulieMixin",
     "roles.winder.WinderScreenMixin",
@@ -76,6 +77,7 @@
     "requireAnnotations": true
   },
   "mixins": [
+    "StepSoundMixin",
     "StoreRendererMixin",
     "roles.prophet.CrystalBallCrosshairMixin",
     "roles.robber.RobberGunCrosshairMixin",

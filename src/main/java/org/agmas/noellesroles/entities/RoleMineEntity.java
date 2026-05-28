@@ -2,6 +2,7 @@ package org.agmas.noellesroles.entities;
 
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LoreComponent;
 import net.minecraft.entity.Entity;
@@ -45,6 +46,11 @@ public class RoleMineEntity extends Entity {
                 if (owner == null) return;
                 PlayerEntity ownerEntity = getWorld().getPlayerByUuid(owner);
                 if (ownerEntity == null) return;
+                if (ownerEntity instanceof net.minecraft.server.network.ServerPlayerEntity serverOwner) {
+                    NbtCompound extra = new NbtCompound();
+                    extra.putUuid("owner", owner);
+                    GameRecordManager.recordGlobalEvent(serverOwner.getServerWorld(), Noellesroles.ROLE_MINE_REPORT_EVENT, null, extra);
+                }
                 ownerEntity.getInventory().remove((itemStack -> {
                     return itemStack.isOf(Items.PAPER);
                 }),64, ownerEntity.getInventory());
@@ -70,6 +76,14 @@ public class RoleMineEntity extends Entity {
 
             for (PlayerEntity caughtPlayer : caughtPlayers) {
                 previouslyCaught.add(caughtPlayer.getUuid());
+                if (getWorld() instanceof net.minecraft.server.world.ServerWorld serverWorld) {
+                    NbtCompound extra = new NbtCompound();
+                    extra.putUuid("victim", caughtPlayer.getUuid());
+                    if (owner != null) {
+                        extra.putUuid("owner", owner);
+                    }
+                    GameRecordManager.recordGlobalEvent(serverWorld, Noellesroles.ROLE_MINE_DETECTED_EVENT, null, extra);
+                }
                 getWorld().playSound(this, getBlockPos(), SoundEvent.of(Identifier.of(Noellesroles.MOD_ID, "role_mine_beep")), SoundCategory.MASTER, 1f, 1f + (getRandom().nextBetween(-2, 2)/0.1f));
                 if (owner != null) {
                     PlayerEntity ownerEntity = getWorld().getPlayerByUuid(owner);

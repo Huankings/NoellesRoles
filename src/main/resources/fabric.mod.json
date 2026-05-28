@@ -30,15 +30,34 @@
   "custom": {
     "cardinal-components": [
       "noellesroles:morphling",
+      "noellesroles:angel",
       "noellesroles:bartender",
+      "noellesroles:delusion",
+      "noellesroles:winder",
       "noellesroles:ability",
+      "noellesroles:phantom_state",
       "noellesroles:voodoo",
+      "noellesroles:wind_mark",
       "noellesroles:config",
       "noellesroles:body_death_reason",
       "noellesroles:executioner",
       "noellesroles:recaller",
+      "noellesroles:prophet",
       "noellesroles:vulture",
-      "noellesroles:chameleon"
+      "noellesroles:chameleon",
+      "noellesroles:noisemaker",
+      "noellesroles:noisemaker_glow_target",
+      "noellesroles:coroner_player",
+      "noellesroles:engineer",
+      "noellesroles:controller_player",
+      "noellesroles:controlled_player",
+      "noellesroles:death_process",
+      "noellesroles:stunned",
+      "noellesroles:stalker",
+      "noellesroles:bomber",
+      "noellesroles:robber",
+      "noellesroles:coward",
+      "noellesroles:sedative"
     ]
   },
   "mixins": [

@@ -4,7 +4,6 @@ import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.agmas.noellesroles.Noellesroles;
-import org.agmas.noellesroles.bartender.BartenderPlayerComponent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,10 +11,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.UUID;
-
 @Mixin(PlayerPoisonComponent.class)
 public abstract class DoNotApplyFakePoisonMixin {
+    //属于旧 fake poison 兼容思路，继续挂回去反而会和现在的新托盘逻辑冲突，所以不需要再加回mixin.json里面
 
     @Shadow @Final private PlayerEntity player;
 

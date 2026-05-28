@@ -11,6 +11,7 @@ import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameMode;
 import org.agmas.noellesroles.Noellesroles;
+import org.agmas.noellesroles.roles.controller.ControlledPlayerComponent;
 
 public class NoellesrolesVoiceChatPlugin implements VoicechatPlugin {
     @Override
@@ -26,6 +27,14 @@ public class NoellesrolesVoiceChatPlugin implements VoicechatPlugin {
     public void paranoidEvent(MicrophonePacketEvent event) {
         VoicechatServerApi api = event.getVoicechat();
         ServerPlayerEntity spectator = ((ServerPlayerEntity)event.getSenderConnection().getPlayer().getPlayer());
+
+        // 新增：被控制者不能说话
+        ControlledPlayerComponent controlledComp = ControlledPlayerComponent.KEY.get(spectator);
+        if (controlledComp.isControlled) {
+            event.cancel();
+            return;
+        }
+
         GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(spectator.getWorld());
         if (spectator.interactionManager.getGameMode().equals(GameMode.SPECTATOR)) {
             spectator.getWorld().getPlayers().forEach((p) -> {

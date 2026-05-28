@@ -2,10 +2,13 @@ package org.agmas.noellesroles.item;
 
 import dev.doctor4t.wathe.entity.FirecrackerEntity;
 import dev.doctor4t.wathe.index.WatheEntities;
+import dev.doctor4t.wathe.record.GameRecordManager;
 import dev.doctor4t.wathe.util.AdventureUsable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.registry.Registries;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -30,6 +33,9 @@ public class RoleMineItem extends Item implements AdventureUsable {
                 roleMineEntity.setYaw(player.getHeadYaw());
                 roleMineEntity.owner = player.getUuid();
                 world.spawnEntity(roleMineEntity);
+                if (player instanceof ServerPlayerEntity serverPlayer) {
+                    GameRecordManager.recordItemUse(serverPlayer, Registries.ITEM.getId(this), null, null);
+                }
                 if (!player.isCreative()) {
                     player.getStackInHand(context.getHand()).decrement(1);
                 }

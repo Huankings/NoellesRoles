@@ -20,7 +20,7 @@ public abstract class StoreRendererMixin {
     @Shadow public static StoreRenderer.MoneyNumberRenderer view;
 
     @Shadow public static float offsetDelta;
-
+    ///渲染金币图标
     @Inject(method = "renderHud", at = @At("HEAD"))
     private static void renderCoinsForCustomRoles(TextRenderer renderer,ClientPlayerEntity player, DrawContext context, float delta, CallbackInfo ci) {
         if (((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.BARTENDER)
@@ -28,8 +28,13 @@ public abstract class StoreRendererMixin {
         || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.EXECUTIONER)
         || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.JESTER)
         || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.NOISEMAKER)
+        || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.WINDER)
         || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player,Noellesroles.MIMIC)
-        || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player,Noellesroles.TRAPPER)) {
+        || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player,Noellesroles.TRAPPER)
+        || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player,Noellesroles.CORONER)
+        || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player,Noellesroles.PROPHET)
+        || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player, Noellesroles.ENGINEER)
+        || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player, Noellesroles.COWARD)) {
             int balance = ((PlayerShopComponent)PlayerShopComponent.KEY.get(player)).balance;
             if (view.getTarget() != (float)balance) {
                 offsetDelta = (float)balance > view.getTarget() ? 0.6F : -0.6F;
